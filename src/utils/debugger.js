@@ -4,6 +4,10 @@
 [“绕过”前端反调试](https://juejin.cn/post/7283776161527578661)
 
 [disable-devtool](https://www.npmjs.com/package/disable-devtool)
+
+禁止调试的第三方网站：
+[js-object-to-json](https://tooltt.com/js-object-to-json/)
+[文心一言](https://yiyan.baidu.com/)
 */
 
 /*
