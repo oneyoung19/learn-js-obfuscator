@@ -1,4 +1,5 @@
 const path = require('path')
+const { VUE_APP_TARGET } = process.env
 
 const resolve = (dir) => {
   return path.join(__dirname, dir)
@@ -6,6 +7,7 @@ const resolve = (dir) => {
 
 module.exports = {
   runtimeCompiler: true,
+  publicPath: VUE_APP_TARGET === 'PROD' ? '/learn-js-obfuscator' : '/',
   configureWebpack: {
     plugins: [
     ]
