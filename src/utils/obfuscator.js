@@ -6,6 +6,10 @@
 webpack4:
 [webpack-obfuscator@^2.6.0](https://www.npmjs.com/package/webpack-obfuscator/v/2.6.0)
 [javascript-obfuscator@^2.6.0](https://www.npmjs.com/package/javascript-obfuscator/v/2.6.0)
+
+webpack5:
+[webpack-obfuscator@^3.5.1](https://www.npmjs.com/package/webpack-obfuscator/v/3.5.1)
+[javascript-obfuscator@^4.1.1](https://www.npmjs.com/package/javascript-obfuscator/v/4.1.1)
 */
 const path = require('node:path')
 const WebpackObfuscator = require('webpack-obfuscator')

@@ -1,24 +1,140 @@
 # learn-js-obfuscator
 
-## Project setup
-```
-pnpm install
+## Debugger
+
+1. **基础形式**
+
+*这种形式依然能够在代码中直接看到，而不是创建了 `VM`*。
+
+```js
+(() => {
+  function ban () {
+    setInterval(() => {
+      debugger
+    }, 50)
+  }
+  try {
+    ban()
+  } catch (err) {}
+})()
 ```
 
-### Compiles and hot-reloads for development
-```
-pnpm run serve
+2. **进阶1**
+
+*利用 `Function` 创建 `VM`*。
+
+```js
+(() => {
+  function ban () {
+    setInterval(() => {
+      // eslint-disable-next-line
+      Function('debugger')()
+    }, 50)
+  }
+  try {
+    ban()
+  } catch (err) {}
+})()
 ```
 
-### Compiles and minifies for production
-```
-pnpm run build
+3. **进阶2**
+
+*更改 `Function('debugger'){}` 的写法*。
+
+```js
+(() => {
+  function ban () {
+    setInterval(() => {
+      (function () {
+        return false
+      })
+        .constructor('debugger')
+        .call()
+    }, 50)
+  }
+  try {
+    ban()
+  } catch (err) {}
+})()
 ```
 
-### Lints and fixes files
-```
-pnpm run lint
+有兴趣的话，可以研究一下[disable-devtool](https://www.npmjs.com/package/disable-devtool)。
+
+上述库提供了更加细致的控制 `devtool` 方法。
+
+①参考文档：
+
+- [禁止别人调试自己的前端页面代码](https://juejin.cn/post/7262175454714626108)
+
+- [“绕过”前端反调试](https://juejin.cn/post/7283776161527578661)
+
+②禁止调试的第三方网站：
+
+- [js-object-to-json](https://tooltt.com/js-object-to-json/)
+- [文心一言](https://yiyan.baidu.com/)
+
+## Obfuscator
+
+对于 `Javascript` 混淆，可以使用 [webpack-obfuscator](https://www.npmjs.com/package/webpack-obfuscator)。
+
+另外由于 `webpack-obfuscator` 依赖 [javascript-obfuscator](https://www.npmjs.com/package/javascript-obfuscator)，所以我们在此处声明下各自在不同 `webpack` 版本下的版本：
+
+`webpack4`:
+
+- [webpack-obfuscator@^2.6.0](https://www.npmjs.com/package/webpack-obfuscator/v/2.6.0)
+- [javascript-obfuscator@^2.6.0](https://www.npmjs.com/package/javascript-obfuscator/v/2.6.0)
+
+`webpack5`:
+
+- [webpack-obfuscator@^3.5.1](https://www.npmjs.com/package/webpack-obfuscator/v/3.5.1)
+- [javascript-obfuscator@^4.1.1](https://www.npmjs.com/package/javascript-obfuscator/v/4.1.1)
+
+**Before obfuscator**：
+
+![](https://raw.githubusercontent.com/oneyoung19/vuepress-blog-img/Not-Count-Contribution/img/20240715162016.png)
+
+**After obfuscator**：
+
+![](https://raw.githubusercontent.com/oneyoung19/vuepress-blog-img/Not-Count-Contribution/img/20240715163247.png)
+
+## webpack-obfuscator
+
+可以配置 `plugins`（**推荐**）：
+
+```js
+const WebpackObfuscator = require('webpack-obfuscator')
+
+module.exports = {
+  plugins: [
+    new WebpackObfuscator ({
+      rotateStringArray: true
+    }, ['excluded_bundle_name.js'])
+  ]
+}
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+也可以配置 `rules`:
+
+```js
+const WebpackObfuscator = require('webpack-obfuscator')
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: [
+          path.resolve(__dirname, 'excluded_file_name.js')
+        ],
+        enforce: 'post',
+        use: {
+          loader: WebpackObfuscator.loader,
+          options: {
+            rotateStringArray: true
+          }
+        }
+      }
+    ]
+  }
+}
+```
