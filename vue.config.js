@@ -1,5 +1,7 @@
 const path = require('path')
 const { VUE_APP_TARGET } = process.env
+const WebpackObfuscator = require('webpack-obfuscator')
+const { plugins: webpackObfuscatorPlugins } = require('./src/utils/obfuscator')
 
 const resolve = (dir) => {
   return path.join(__dirname, dir)
@@ -10,6 +12,7 @@ module.exports = {
   publicPath: VUE_APP_TARGET === 'PROD' ? '/learn-js-obfuscator' : '/',
   configureWebpack: {
     plugins: [
+      ...webpackObfuscatorPlugins
     ]
   },
   chainWebpack: config => {
