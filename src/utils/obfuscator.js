@@ -20,6 +20,7 @@ exports.rules = [
     exclude: [
       path.resolve(__dirname, 'excluded_file_name.js')
     ],
+    // Add enforce as final treatment
     enforce: 'post',
     use: {
       loader: WebpackObfuscator.loader,
