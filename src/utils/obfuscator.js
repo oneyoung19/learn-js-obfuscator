@@ -34,5 +34,5 @@ exports.rules = [
 exports.plugins = [
   new WebpackObfuscator ({
     rotateStringArray: true
-  }, ['excluded_bundle_name.js'])
+  }, [])
 ]

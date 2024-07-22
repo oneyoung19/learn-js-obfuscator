@@ -10,10 +10,14 @@ const resolve = (dir) => {
 module.exports = {
   runtimeCompiler: true,
   publicPath: VUE_APP_TARGET === 'PROD' ? '/learn-js-obfuscator' : '/',
-  configureWebpack: {
-    plugins: [
-      ...webpackObfuscatorPlugins
-    ]
+  configureWebpack: config => {
+    if (VUE_APP_TARGET === 'PROD') {
+      return {
+        plugins: [
+          ...webpackObfuscatorPlugins
+        ]
+      }
+    }
   },
   chainWebpack: config => {
     config.resolve.alias
