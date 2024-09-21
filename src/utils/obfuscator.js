@@ -32,7 +32,7 @@ exports.rules = [
 ]
 
 exports.plugins = [
-  new WebpackObfuscator ({
+  new WebpackObfuscator({
     rotateStringArray: true
   }, [])
 ]
