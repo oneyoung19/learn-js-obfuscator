@@ -1,8 +1,8 @@
 <template>
   <div style="text-align: left;">
     <button @click="handleClick">Click me!</button>
-    <!-- camera照相机 camcorder摄像机 microphone录音 -->
-    <input type="file" accept="image/*" capture="camera" ref="uploadBtn" style="visibility: hidden;">
+    <!-- user 前置摄像头 environment 后置摄像头 -->
+    <input type="file" accept="image/*" capture="environment" ref="uploadBtn" style="visibility: hidden;">
     <MediaRecorder
       :visible.sync="recorderVisible"
       :config="mediaRecorderConfig"
